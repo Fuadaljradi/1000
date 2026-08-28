@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>نموذج التسجيل</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1a237e 0%, #0d47a1 50%, #01579b 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        .container {
+            background: white;
+            border-radius: 24px;
+            box-shadow: 0 25px 80px rgba(0,0,0,0.4);
+            padding: 45px;
+            width: 100%;
+            max-width: 520px;
+            animation: slideUp 0.7s ease-out;
+            position: relative;
+            overflow: hidden;
+        }
+        .container::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 5px;
+            background: linear-gradient(90deg, #1a237e, #0d47a1, #42a5f5);
+        }
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(40px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .header { text-align: center; margin-bottom: 35px; }
+        .icon { font-size: 55px; margin-bottom: 15px; display: block; }
+        h1 { color: #1a237e; font-size: 26px; margin-bottom: 8px; font-weight: 700; }
+        .subtitle { color: #666; font-size: 14px; }
+        .form-group { margin-bottom: 22px; position: relative; }
+        label { display: block; margin-bottom: 8px; color: #333; font-weight: 700; font-size: 14px; }
+        label .required { color: #d32f2f; margin-right: 4px; }
+        input {
+            width: 100%; padding: 15px 18px;
+            border: 2px solid #e3e3e3; border-radius: 14px;
+            font-size: 16px; font-family: inherit;
+            transition: all 0.3s ease; background: #fafafa; color: #333;
+        }
+        input:focus {
+            outline: none; border-color: #0d47a1;
+            background: white;
+            box-shadow: 0 0 0 5px rgba(13, 71, 161, 0.1);
+        }
+        input::placeholder { color: #aaa; font-size: 14px; }
+        .hint { font-size: 12px; color: #888; margin-top: 6px; display: block; }
+        .submit-btn {
+            width: 100%; padding: 18px;
+            background: linear-gradient(135deg, #1a237e 0%, #0d47a1 50%, #1565c0 100%);
+            color: white; border: none; border-radius: 14px;
+            font-size: 18px; font-weight: 700; cursor: pointer;
+            transition: all 0.3s ease; position: relative;
+            overflow: hidden; margin-top: 10px; letter-spacing: 0.5px;
+        }
+        .submit-btn:hover { transform: translateY(-3px); box-shadow: 0 15px 40px rgba(13, 71, 161, 0.35); }
+        .submit-btn:active { transform: translateY(-1px); }
+        .submit-btn:disabled { opacity: 0.6; cursor: not-allowed; transform: none; box-shadow: none; }
+        .spinner {
+            display: none; width: 22px; height: 22px;
+            border: 3px solid rgba(255,255,255,0.3);
+            border-radius: 50%; border-top-color: white;
+            animation: spin 0.8s linear infinite;
+            margin-right: 10px; vertical-align: middle;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
+        .message {
+            margin-top: 20px; padding: 16px; border-radius: 14px;
+            text-align: center; font-weight: 700; display: none;
+            animation: fadeIn 0.4s ease; font-size: 15px;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: scale(0.95); }
+            to { opacity: 1; transform: scale(1); }
+        }
+        .message.success { background: #e8f5e9; color: #2e7d32; border: 1px solid #a5d6a7; display: block; }
+        .message.error { background: #ffebee; color: #c62828; border: 1px solid #ef9a9a; display: block; }
+        .footer { text-align: center; margin-top: 25px; color: #999; font-size: 12px; }
+        @media (max-width: 480px) {
+            .container { padding: 30px 20px; }
+            h1 { font-size: 22px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <span class="icon">📝</span>
+            <h1>نموذج التسجيل</h1>
+            <p class="subtitle">أدخل بياناتك وسيتم حفظها تلقائياً في </p>
+        </div>
+        
+        <form id="registrationForm" method="POST" target="hidden_iframe">
+            <div class="form-group">
+                <label for="militaryNumber">الرقم العسكري <span class="required">*</span></label>
+                <input type="text" id="militaryNumber" name="militaryNumber" required placeholder="أدخل الرقم العسكري" autocomplete="off">
+            </div>
+
+            <div class="form-group">
+                <label for="fullName">الاسم كما في البطاقة الذكية <span class="required">*</span></label>
+                <input type="text" id="fullName" name="fullName" required placeholder="أدخل الاسم كما في البطاقة الذكية" autocomplete="off">
+            </div>
+
+            <div class="form-group">
+                <label for="whatsappNumber">رقم الواتس آب <span class="required">*</span></label>
+                <input type="tel" id="whatsappNumber" name="whatsappNumber" required placeholder="700000000" autocomplete="off">
+                <span class="hint">مثال: 7xxxxxxxx</span>
+            </div>
+
+            <div class="form-group">
+                <label for="sharqAccountNumber">رقم حساب الشرق <span class="required">*</span></label>
+                <input type="text" id="sharqAccountNumber" name="sharqAccountNumber" required placeholder="أدخل رقم حساب الشرق" autocomplete="off">
+            </div>
+
+            <button type="submit" class="submit-btn" id="submitBtn">
+                <span class="spinner" id="spinner"></span>
+                إرسال البيانات
+            </button>
+        </form>
+
+        <iframe name="hidden_iframe" id="hidden_iframe" style="display:none;"></iframe>
+
+        <div id="message" class="message"></div>
+        <div class="footer">جميع البيانات محمية ويتم حفظها بشكل آمن</div>
+    </div>
+
+    <script>
+        // ⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️
+        // ⚠️ هنا يجب وضع الرابط الخاص بك - استبدل النص بالكامل بالرابط
+        // مثال: const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbx.../exec';
+        
+        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbz-KPSdJnMde90JtQIYp4SFfJ6wjsnf3lxShprJlqn-4sla2WcD45FpVfmW4KhLDo0I/exec';
+        
+        // ⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️
+
+        const form = document.getElementById('registrationForm');
+        const submitBtn = document.getElementById('submitBtn');
+        const spinner = document.getElementById('spinner');
+        const messageDiv = document.getElementById('message');
+
+        form.addEventListener('submit', function(e) {
+            if (SCRIPT_URL === 'YOUR_SCRIPT_URL') {
+                e.preventDefault();
+                showMessage('⚠️ يرجى إضافة رابط Google Apps Script في الكود أولاً!', 'error');
+                return;
+            }
+
+            // تعيين رابط الإرسال
+            form.action = SCRIPT_URL;
+
+            // تعطيل الزر وإظهار التحميل
+            submitBtn.disabled = true;
+            spinner.style.display = 'inline-block';
+            hideMessage();
+
+            // بعد 3 ثوانٍ نفترض النجاح ونُعيد تعيين النموذج
+            setTimeout(function() {
+                showMessage('✅ تم إرسال البيانات بنجاح!', 'success');
+                form.reset();
+                submitBtn.disabled = false;
+                spinner.style.display = 'none';
+            }, 3000);
+        });
+
+        function showMessage(text, type) {
+            messageDiv.textContent = text;
+            messageDiv.className = 'message ' + type;
+        }
+
+        function hideMessage() {
+            messageDiv.className = 'message';
+            messageDiv.style.display = 'none';
+        }
+    </script>
+</body>
+</html>
